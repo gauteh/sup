@@ -350,6 +350,7 @@ else
   $encoding = "UTF-8"
 end
 
+require "sup/decoder"
 require "sup/buffer"
 require "sup/keymap"
 require "sup/mode"

@@ -443,6 +443,7 @@ private
         else
           raise RMail::EncodingUnsupportedError, encoding.inspect
         end
+        body = Decoder.transcode "utf-8", encoding, body
         body = body.normalize_whitespace
         payload = RMail::Parser.read(body)
         from = payload.header.from.first ? payload.header.from.first.format : ""
@@ -524,7 +525,7 @@ private
           ## if there's no charset, use the current encoding as the charset.
           ## this ensures that the body is normalized to avoid non-displayable
           ## characters
-          body = Iconv.easy_decode($encoding, m.charset || $encoding, m.decode)
+          body = Decoder.transcode $encoding, m.charset || $encoding, m.decode
         else
           body = ""
         end
@@ -538,13 +539,14 @@ private
   ## message body (there is no extra header for inline GPG) or for encrypted
   ## (and possible signed) inline GPG messages
   def inline_gpg_to_chunks body, encoding_to, encoding_from
+    body = Decoder.transcode encoding_to, encoding_from, body
     lines = body.split("\n")
     gpg = lines.between(GPG_SIGNED_START, GPG_SIGNED_END)
     if !gpg.empty?
       msg = RMail::Message.new
       msg.body = gpg.join("\n")
 
-      body = Iconv.easy_decode(encoding_to, encoding_from, body)
+      #body = Iconv.easy_decode(encoding_to, encoding_from, body)
       lines = body.split("\n")
       sig = lines.between(GPG_SIGNED_START, GPG_SIG_START)
       startidx = lines.index(GPG_SIGNED_START)

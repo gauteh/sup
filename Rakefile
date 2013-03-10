@@ -32,8 +32,8 @@ end
 $:.push "lib"
 require 'rubygems'
 unless Kernel.respond_to?(:require_relative)
-  require "sup-files"
-  require "sup-version"
+  require "./sup-files"
+  require "./sup-version"
 else
   require_relative "sup-files"
   require_relative "sup-version"

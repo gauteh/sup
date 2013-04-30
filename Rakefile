@@ -29,6 +29,7 @@ task :upload_report do |t|
   sh "rsync -essh -cavz ditz wmorgan@rubyforge.org:/var/www/gforge-projects/sup/"
 end
 
+require 'psych'
 require 'rubygems'
 require 'rake/testtask'
 

@@ -113,6 +113,8 @@ class Colormap
         Ncurses::COLOR_WHITE
       when Ncurses::COLOR_YELLOW, Ncurses::COLOR_GREEN
         fg
+      when Ncurses::COLOR_WHITE
+        Ncurses::COLOR_WHITE
       else
         Ncurses::COLOR_BLACK
       end
